@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router,Routes ,Route} from "react-router-dom";
 // pages & components
 import Header from '../header/header';
-import SearchForm from '../searchForm';
-import GifPage from '../gifPage';
-import StickerPage from '../stickerPage';
+import SearchForm from '../searchForm/searchForm';
+import GifPage from '../gifPage/gifPage';
+import StickerPage from '../stickerPage/stickerPage';
 // styles: 
 import './App.css';
-
 
 export default class App extends Component {
   
@@ -17,8 +17,8 @@ export default class App extends Component {
   handleQuery = (query) => {
     this.setState({
       query
-    }, () => {console.log(this.props); console.log(this.state.query)})
-    console.log("query submitted to App")
+    });
+    console.log('query recieved to the app')
   }
 
   render(){
@@ -26,14 +26,19 @@ export default class App extends Component {
     const {query} = this.state;
 
     return (
-      <div className="mainWrapper"> 
-        <Header/>
-        <SearchForm handleQuery={this.handleQuery}/>
-        <div className="gifContainer">
-            <GifPage query={query}/>
-            <StickerPage query={query}/>
+      <Router>
+        <div className="app">
+
+          <Header/>
+          <SearchForm handleQuery={this.handleQuery}/>
+
+          <Routes >
+              <Route path='/' element={<GifPage query={query}/>} />
+              <Route path='/stickers' element={<StickerPage query={query}/>}/>
+          </Routes>
+          
         </div>
-      </div>
+      </Router>
     );
   }
 }

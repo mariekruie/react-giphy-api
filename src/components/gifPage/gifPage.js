@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import Service from '../../service';
-
 // components
-import TrendingItem from '../trendingItem';
-import SearchItem from '../searchItem';
+import Service from '../../service/service';
+import TrendingItem from '../trendingItem/trendingItem';
+import SearchItem from '../searchItem/searchItem';
+//styles
+import './gifPage.css';
+
 
 export default class GifPage extends Component{
 
@@ -11,18 +13,21 @@ export default class GifPage extends Component{
 
     render(){
 
-        // const {query} = this.props;
+        const {query} = this.props;
 
-        // const serachItem = query ? <SearchItem query={query} getData={this.gifService.getSearchGif}/> : null;
+        console.log(`Query ${query} recieved to the Gif component`);
 
-        // console.log(`I am a ${query} query in gifPage compoenent`)
+        const searchItem = query ? <SearchItem className="search-item" query={query} getData={this.gifService.getSearchGif}/> : null;
 
         return(
-            <>
-                {/* {serachItem} */}
-                <TrendingItem 
-                    getData={this.gifService.getTrendingGif}/>
-            </>
+            <div className='gif-container'>
+                <div className="trending-item">
+                    <TrendingItem getData={this.gifService.getTrendingGif}/>
+                </div>
+                <div className="search-item">
+                    { searchItem }
+                </div>
+            </div>
         )
     }
     

@@ -1,96 +1,99 @@
-// import React, { Component } from 'react';
-// import Spinner from '../spinner';
-// // styles: 
-// import {Button} from 'reactstrap';
-// import styled from 'styled-components';
-// import style from './SearchItem.module.css';
+import React, { Component } from 'react';
+import Spinner from '../spinner/spinner';
+import icon from "./sad-icon.png";
 
-// const CopiedLink = styled.span`
-//   width: 50%;
-//   color: rgb(41, 41, 44);
-//   background-color: #fff;
-//   font-size: 0.8rem;
-//   text-align: center;
-//   padding: 0.2rem 0.1rem;
-//   border-radius: 5px;
-//   position: absolute;
-//   right: 10px;
-//   top: -30px;
-//   opacity: ${ state => state.copied ? 1 : 0};
-// `
 
-// export default class SearchItem extends Component {
 
-//     state={
-//         itemList: null,
-//         idx:0
-//     }
+export default class SearchItem extends Component {
 
-//     componentDidMount(){
-//         const {getData, query} = this.props;   
-//         getData(query)
-//             .then( itemList => {
-//                 console.log(itemList);
-//                 this.setState({
-//                 itemList})}
-//             )
-//     }
+    state={
+        itemList: null,
+        idx:0
+    }
 
-//     renderItems = (arr) =>{
-//         return arr.map( item => {
-//             const {id, url, title} = item;
+    componentDidMount(){
+        const {getData, query} = this.props;   
+        getData(query)
+            .then( itemList => {
+                this.setState({
+                itemList});
+                console.log(itemList)
+            })
+    }
 
-//             return(
-//                 <>
-//                     <div className={style.colOne} key={id}>
-//                         <div className={style.itemContainer}>
-//                             <img src={url} className={style.image} alt='x'/>
-//                         </div>
-//                     </div>
-//                     <div className={style.colTwo}>
-//                         <Button outline color="warning" onClick={() => this.onClickSearch}>Еще вариант</Button>{' '}
-//                         <h2 className={style.heading}>{`Название gif - "${title}"` }</h2>
-//                         <p className={style.copyLink} onClick={() => this.copyLink(url)}>Скопировать ссылку
-//                         <CopiedLink>скопировано</CopiedLink>
-//                         </p>
-//                     </div>
-//                 </>
-//             )
-//         })
-//     }
+    componentDidUpdate(prevProps){
+        if (this.props.query !== prevProps.query){
+            console.log('Search item has been updated - props')
+            const {getData, query} = this.props;  
+            getData(query)
+            .then( itemList => {
+                this.setState({
+                itemList});
+                console.log(itemList)
+            })
+        }
+    }
 
-//     onClickSearch = () => {
-//         if( this.state.idx < 24){
-//           this.setState({
-//             idx: this.state.idx + 1
-//           })
-//        } else {
-//           this.setState({
-//             idx: 0
-//           })
-//          }
-//     }
+    onClickSearch = () => {
+        if( this.state.idx < 24){
+          this.setState({
+            idx: this.state.idx + 1
+          })
+       } else {
+          this.setState({
+            idx: 0
+          })
+         }
+    }
 
-//     copyLink = (link) => {
-//         navigator.clipboard.writeText(link);
-//     }
+    renderItems = (arr) =>{
+        return arr.map( item => {
+            const {id, url, title} = item;
 
-//     render(){
-//         const {itemList, idx} = this.state;
+            return(
+                <>
+                    <img className="image" src={url} key={id} alt='x'/>
+                    <h2 className="heading">{`Название gif - "${title}"` }</h2>
+                    <p className="clipboard" onClick={() => this.copyLink(url)}>Скопировать ссылку
+                        <span id="clipboard-copied" className="clipboard-copied">скопировано</span>
+                    </p>
+                </>
+            )
+        })
+    }
 
-//         if (!itemList){
-//             return <Spinner/>
-//         }
+    copyLink = (link) => {
+        navigator.clipboard.writeText(link);
 
-//         const items = this.renderItems(itemList);
+        let spanCopied = document.getElementById('clipboard-copied');
+        spanCopied.style.opacity = '1';
+        setTimeout(()=> {spanCopied.style.opacity = '0'}, 1000 )
+    }
 
-//         return(
-//             <div className={style.row}>
-//                 <div className={style.colUp}>
-//                     <h3 className={style.title}>Результаты поиска</h3>
-//                 </div>
-//                 {items[idx]}
-//             </div>
-//         )
-//     }
-// }
+    render(){
+        const {itemList, idx} = this.state;
+        const {query} = this.props;
+
+        if (!itemList){
+            return <Spinner/>
+        } else if(itemList.length === 0){
+            return (
+            <div className="sad-icon">
+              <div className="sad-icon-img" style={{ backgroundImage: `url(${icon})` }}></div>
+              <h4>Увы, по этому запросу мы ничего не нашли..</h4>
+            </div>
+            )
+        }
+
+        const items = this.renderItems(itemList);
+
+        return(
+            <div className="wrapper">
+                <h3 className="wrapper__title reverse">Результаты поиска: {query}</h3>
+                {items[idx]}
+                <button className="button" type="button" onClick={this.onClickSearch}>Еще вариант</button>
+            </div>
+            
+        )
+    }
+}

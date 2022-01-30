@@ -16,13 +16,13 @@ export default class Service{
     // GIF 
     getTrendingGif = async () => {
         const res = await this.getResource(`gifs/trending?${this.api_key}&limit=25&rating=g`);
-        console.log('get trending gif');
+    
         return res.data.map(this._transformGif);
     }
 
     getSearchGif = async (query) => {
-        const res = await fetch(`gifs/search?${this.api_key}&q=${query}&limit=25&rating=g&lang=ru`);
-        console.log('get search gif');
+        const res = await this.getResource(`gifs/search?${this.api_key}&q=${query}&limit=25&offset=0&rating=g&lang=ru`);
+        console.log('Searh data has been recieved');
         return res.data.map(this._transformGif);
     }
 
@@ -37,13 +37,13 @@ export default class Service{
     // STICKER
     getTrendingSticker = async () => {
         const res = await this.getResource(`stickers/trending?${this.api_key}&limit=25&rating=g`);
-        console.log('get trending sticker');
+
         return res.data.map(this._transformSticker);
     }
 
     getSearchSticker = async (query) => {
-        const res = await fetch(`stickers/search?${this.api_key}&q=${query}&limit=25&rating=g&lang=ru`);
-        console.log('get search sticker');
+        const res = await this.getResource(`stickers/search?${this.api_key}&q=${query}&limit=25&rating=g&lang=ru`);
+
         return res.data.map(this._transformSticker);
     }
 
