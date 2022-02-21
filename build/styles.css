@@ -1,6 +1,12 @@
 body {
-  background-color: rgb(22, 10, 24) !important;
+  background-color: rgb(20, 29, 37) !important;
   transition: all 0.3s linear;
   box-sizing: border-box;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+
+@media screen and (max-width: 599px) {
+  .body {
+    overflow: scroll;
+  }
 }

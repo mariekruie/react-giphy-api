@@ -30,8 +30,6 @@ export default class SearchForm extends Component{
                         <img src={icon} alt="a"/>
                     </button>
                 </form>
-
-
             </>
 
         )

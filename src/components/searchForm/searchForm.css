@@ -24,3 +24,18 @@
 .search-btn img svg {
   fill: white;
 }
+
+@media screen and (max-width: 599px) {
+  .search-input {
+    padding: 0.5rem;
+    width: 90%;
+    font-size: 1rem;
+  }
+  .search-input::placeholder {
+    font-size: 1rem;
+  }
+  .search-btn {
+    width: 10%;
+    border: 0.1rem solid var(--green);
+  }
+}

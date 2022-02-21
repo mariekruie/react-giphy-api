@@ -10,7 +10,6 @@ export default class TrendingItem extends Component {
         idx: 1
     }
 
-
     componentDidMount(){
         const {getData} = this.props;   
         getData()
@@ -34,7 +33,6 @@ export default class TrendingItem extends Component {
 
     copyLink = (link) => {
         navigator.clipboard.writeText(link);
-        
         let spanCopied = document.getElementById('clipboard-copied');
         spanCopied.style.opacity = '1';
         setTimeout(()=> {spanCopied.style.opacity = '0'}, 1000 )
